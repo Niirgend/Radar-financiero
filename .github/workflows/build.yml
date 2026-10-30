@@ -12,11 +12,10 @@ jobs:
       - name: Copiar repositorio
         uses: actions/checkout@v4
 
-      - name: Compilar APK con contenedor Buildozer
-        uses: ArtemSBulgakov/buildozer-action@v1
-        id: buildozer
+      - name: Compilar APK con Buildozer
+        uses: kivy/buildozer-action@master
         with:
-          command: buildozer android debug
+          filename: buildozer.spec
 
       - name: Subir artefacto (APK)
         uses: actions/upload-artifact@v4
