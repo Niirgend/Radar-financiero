@@ -9,6 +9,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Instalar dependencias del sistema
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libtool autoconf automake build-essential
+
+    
     - name: Copiar repositorio
       uses: actions/checkout@v4
 
@@ -23,13 +29,7 @@ jobs:
         distribution: 'temurin'
         java-version: '11'
 
-    - name: Instalar dependencias del sistema para Buildozer
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-          git zip unzip openjdk-11-jdk python3-pip autoconf libtool pkg-config \
-          zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev \
-          libssl-dev
+
 
     - name: Instalar Cython y Buildozer
       run: |
