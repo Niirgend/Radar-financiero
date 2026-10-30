@@ -9,39 +9,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Instalar dependencias del sistema
-      run: |
-          sudo apt-get update
-          sudo apt-get install -y libtool autoconf automake build-essential
+      - name: Copiar repositorio
+        uses: actions/checkout@v4
 
-    - name: Copiar repositorio
-      uses: actions/checkout@v4
+      - name: Compilar APK con contenedor Buildozer
+        uses: ArtemSBulgakov/buildozer-action@v1
+        id: buildozer
+        with:
+          command: buildozer android debug
 
-    - name: Configurar Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-
-    - name: Configurar Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '11'
-
-
-
-    - name: Instalar Cython y Buildozer
-      run: |
-        pip install --upgrade pip
-        pip install cython==0.29.36 buildozer
-
-    - name: Compilar APK
-      run: |
-        yes | buildozer -v android debug
-
-    - name: Subir el APK generado
-      uses: actions/upload-artifact@v4
-      with:
-        name: paquete-apk
-        path: bin/*.apk
-        
+      - name: Subir artefacto (APK)
+        uses: actions/upload-artifact@v4
+        with:
+          name: paquete-apk
+          path: bin/*.apk
